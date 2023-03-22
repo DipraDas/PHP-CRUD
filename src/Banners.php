@@ -65,7 +65,7 @@ class Banners
         $result = $stmt->execute();
 
 
-        header("location:index.php");
+        // header("location:index.php");
 
         return $result;
     }
