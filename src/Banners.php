@@ -19,7 +19,7 @@ class Banners
 
     public function index()
     {
-        $query = "SELECT * FROM `banners`";
+        $query = "SELECT * FROM `banners` WHERE is_deleted = 0";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         $banners = $stmt->fetchALL();
@@ -134,6 +134,23 @@ class Banners
 
         $result = $stmt->execute();
 
+        header("location:index.php");
+        return $result;
+    }
+
+    public function trash()
+    {
+        $_id = $_GET['id'];
+        $_is_deleted = 1;
+
+        $query = "UPDATE `banners` SET `is_deleted` = :is_deleted WHERE `banners`.`id` = :id;";
+
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->bindParam(':id', $_id);
+        $stmt->bindParam(':is_deleted', $_is_deleted);
+
+        $result = $stmt->execute();
         header("location:index.php");
         return $result;
     }
