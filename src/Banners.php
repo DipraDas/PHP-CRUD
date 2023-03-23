@@ -29,7 +29,7 @@ class Banners
     public function store()
     {
         // var_dump($_FILES);\
-        $approot = $_SERVER['DOCUMENT_ROOT'] ."/dipCrud/";
+        $approot = $_SERVER['DOCUMENT_ROOT'] . "/dipCrud/";
         $_title = $_POST['title'];
         $_link = $_POST['link'];
 
@@ -63,10 +63,19 @@ class Banners
         $stmt->bindParam(':created_at', $_created_at);
 
         $result = $stmt->execute();
-
-
         // header("location:index.php");
-
         return $result;
+    }
+
+
+    public function show()
+    {
+        $_id = $_GET['id'];
+        $query = "SELECT * FROM `banners` WHERE id = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $_id);
+        $stmt->execute();
+        $banner = $stmt->fetch();
+        return $banner;
     }
 }
